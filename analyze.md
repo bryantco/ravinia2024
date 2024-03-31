@@ -6,10 +6,11 @@ To answer this question, I collected data from the 2024 Ravinia schedule availab
 
 # Results
 
-The results are surprisingly passable for my simple plug-and-play work!
+The results are surprisingly passable for my simple plug-and-play work.
 
 * Test accuracy looks fine -- I randomly sample an artist who is a classical performer, and the most similar train document is also a classical performer; the least similar train document is a rock performer 
-* The most similar performance to Lindsey Stirling is a chamber performance from the Ravinia Steans Music Institute, featuring kickass violinist [Midori](https://en.wikipedia.org/wiki/Midori_(violinist)), which seems about right.
+* The most similar performance to Lindsey Stirling is a chamber performance from the Ravinia Steans Music Institute, featuring kickass violinist [Midori](https://en.wikipedia.org/wiki/Midori_(violinist)), which seems about right. 
+* To see this performance, this means that I should go to the Festival on July 7.
 
 
 ```python
@@ -288,15 +289,65 @@ print(train[sims_stirling[len(train) - 1][0]].words)
 ```
 
     ['lindsey', 'stirling', 'born', 'september', 'is', 'an', 'american', 'violinist', 'songwriter', 'and', 'dancer', 'she', 'presents', 'choreographed', 'violin', 'performances', 'in', 'live', 'and', 'music', 'videos', 'found', 'on', 'her', 'official', 'youtube', 'channel', 'which', 'she', 'created', 'in', 'stirling', 'performs', 'variety', 'of', 'music', 'styles', 'from', 'classical', 'to', 'pop', 'and', 'rock', 'to', 'electronic', 'dance', 'music', 'aside', 'from', 'original', 'work', 'her', 'discography', 'contains', 'covers', 'of', 'songs', 'by', 'other', 'musicians', 'such', 'as', 'johann', 'sebastian', 'bach', 'ludwig', 'van', 'beethoven', 'wolfgang', 'amadeus', 'mozart', 'and', 'antonio', 'vivaldi', 'and', 'various', 'soundtracks']
+    
+
     most similar: 
     ['faculty', 'members', 'of', 'the', 'ravinia', 'steans', 'music', 'institute', 'piano', 'strings', 'program', 'come', 'together', 'for', 'an', 'afternoon', 'of', 'chamber', 'music', 'with', 'violinist', 'midori', 'taking', 'the', 'stage', 'for', 'her', 'first', 'season', 'as', 'the', 'program', 'artistic', 'director', 'she', 'is', 'joined', 'by', 'violinist', 'mihaela', 'martin', 'violist', 'kim', 'kashkashian', 'cellists', 'frans', 'helmerson', 'and', 'clive', 'greensmith', 'and', 'pianist', 'marc', 'andré', 'hamelin', 'on', 'the', 'program', 'is', 'ludwig', 'van', 'beethoven', 'string', 'trio', 'no', 'timo', 'andres', 'piano', 'trio', 'commissioned', 'by', 'rsmi', 'in', 'carlos', 'simon', 'where', 'two', 'or', 'three', 'are', 'gathered', 'and', 'robert', 'schumann', 'piano', 'quintet', 'in', 'flat', 'major']
     least similar:
     ['appearing', 'in', 'acclaimed', 'broadway', 'productions', 'of', 'the', 'sound', 'of', 'music', 'the', 'book', 'of', 'mormon', 'and', 'parade', 'singer', 'and', 'actor', 'ben', 'platt', 'first', 'rose', 'to', 'prominence', 'in', 'the', 'title', 'role', 'of', 'dear', 'evan', 'hansen', 'that', 'role', 'earned', 'him', 'the', 'tony', 'award', 'for', 'best', 'actor', 'in', 'leading', 'role', 'in', 'musical', 'making', 'him', 'the', 'youngest', 'ever', 'recipient', 'at', 'that', 'time', 'he', 'has', 'recorded', 'two', 'studio', 'albums', 'sing', 'to', 'me', 'instead', 'and', 'reverie', 'and', 'appears', 'this', 'summer', 'following', 'the', 'release', 'of', 'his', 'latest', 'single', 'with', 'sara', 'bareilles', 'grow', 'as', 'we', 'go']
     
 
+
+```python
+df_ravinia[df_ravinia['descrip'].str.contains('Midori')]
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>band</th>
+      <th>date</th>
+      <th>descrip</th>
+      <th>genre</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>59</th>
+      <td>Midori</td>
+      <td>2024-07-07</td>
+      <td>Faculty members of the Ravinia Steans Music In...</td>
+      <td>classical</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
 # t-SNE
 
-I create a t-SNE model to visualize the word vectors.
+I create a t-SNE model to visualize the word vectors. t-SNE is a dimensionality reduction technique that maps high-dimensional data to a two-dimensional plane.
+
+The results look okay but not the best. For example, some genres cluster together on the bottom (funk/folk/hip hop). However, there don't seem to be clear patterns in general, which may be due to the small size of the corpus. This small size is also why I chose a lower perplexity (4, which is unusual for t-SNE).
 
 
 ```python
@@ -338,11 +389,6 @@ fig.savefig(output_dir / 'ravinia_2024_tsne.png')
 
 
     
-![png](analyze_files/analyze_26_0.png)
+![png](analyze_files/analyze_27_0.png)
     
 
-
-
-```python
-
-```
