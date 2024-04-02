@@ -1,4 +1,9 @@
-# Motivation 
+---
+layout: post
+title: "Who Like Lindsey Stirling to See at Ravinia 2024, According to a Language Model"
+---
+
+# Motivation
 
 This project is motivated by a simple question: who should I go see at the Ravinia Festival in 2024 to have a performance closest to the musical style of Lindsey Stirling?
 
@@ -8,8 +13,8 @@ To answer this question, I collected data from the 2024 Ravinia schedule availab
 
 The results are surprisingly passable for my simple plug-and-play work.
 
-* Test accuracy looks fine -- I randomly sample an artist who is a classical performer, and the most similar train document is also a classical performer; the least similar train document is a rock performer 
-* The most similar performance to Lindsey Stirling is a chamber performance from the Ravinia Steans Music Institute, featuring kickass violinist [Midori](https://en.wikipedia.org/wiki/Midori_(violinist)), which seems about right. 
+* Test accuracy looks fine -- I randomly sample an artist who is a classical performer, and the most similar train document is also a classical performer; the least similar train document is a rock performer
+* The most similar performance to Lindsey Stirling is a chamber performance from the Ravinia Steans Music Institute, featuring kickass violinist [Midori](https://en.wikipedia.org/wiki/Midori_(violinist)), which seems about right.
 * To see this performance, this means that I should go to the Festival on July 7.
 
 
@@ -20,7 +25,7 @@ import pandas as pd
 from gensim.utils import simple_preprocess
 from gensim.models.doc2vec import TaggedDocument, Doc2Vec
 from sklearn.model_selection import train_test_split
-import joblib 
+import joblib
 import numpy as np
 import matplotlib.pyplot as plt
 ```
@@ -55,19 +60,6 @@ df_ravinia.head(10)
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -185,13 +177,13 @@ Train requires the tokens and document ID
 
 
 ```python
-def process_and_tokenize_series(df_pandas, 
-                                col_to_process, 
+def process_and_tokenize_series(df_pandas,
+                                col_to_process,
                                 tokens_only=True):
     for i, doc in enumerate(df_pandas[col_to_process]):
         tokens = simple_preprocess(doc) # seems to remove stop words
         if tokens_only:
-            yield tokens 
+            yield tokens
         else:
             yield TaggedDocument(tokens, [i])
 
@@ -208,8 +200,8 @@ min_count = 2
 epochs = 1500
 
 model = Doc2Vec(
-    vector_size=vector_size, 
-    min_count=min_count, 
+    vector_size=vector_size,
+    min_count=min_count,
     epochs=epochs
 )
 ```
@@ -252,11 +244,11 @@ print(train[sims[len(train) - 1][0]].words)
 ```
 
     ['the', 'knights', 'an', 'orchestral', 'collective', 'led', 'by', 'an', 'open', 'minded', 'spirit', 'of', 'camaraderie', 'and', 'collaboration', 'join', 'pianist', 'aaron', 'diehl', 'an', 'artist', 'quietly', 're', 'defining', 'the', 'lines', 'between', 'jazz', 'and', 'classical', 'onstage', 'at', 'the', 'martin', 'theatre', 'the', 'group', 'performs', 'excerpts', 'from', 'jazz', 'titan', 'mary', 'lou', 'williams', 'zodiac', 'suite', 'on', 'the', 'tail', 'of', 'recording', 'this', 'joyous', 'enchanting', 'creation', 'the', 'guardian', 'that', 'publication', 'continued', 'that', 'the', 'moods', 'crammed', 'into', 'each', 'sign', 'three', 'minutes', 'are', 'wonder', 'the', 'playing', 'and', 'on', 'pisces', 'operatic', 'singing', 'inspired', 'triumph', 'the', 'orchestra', 'presents', 'the', 'ravinia', 'premiere', 'of', 'louise', 'farrenc', 'finale', 'allegro', 'from', 'symphony', 'no', 'in', 'minor', 'and', 'concludes', 'the', 'program', 'with', 'beethoven', 'symphony', 'no', 'pastoral']
-    most similar: 
+    most similar:
     ['the', 'evening', 'is', 'filled', 'entirely', 'with', 'ravinia', 'premieres', 'as', 'world', 'class', 'clarinetist', 'kinan', 'azmeh', 'and', 'genre', 'defying', 'pianist', 'dinuk', 'wijeratne', 'join', 'chamber', 'orchestra', 'far', 'cry', 'at', 'the', 'martin', 'theatre', 'the', 'program', 'opens', 'with', 'syrian', 'american', 'composer', 'kareem', 'roustom', 'dabke', 'for', 'string', 'orchestra', 'piece', 'exploring', 'folk', 'dance', 'from', 'palestine', 'syria', 'and', 'lebanon', 'that', 'is', 'typically', 'performed', 'at', 'joyous', 'occasions', 'the', 'musicians', 'continue', 'with', 'two', 'pieces', 'illustrating', 'the', 'clarinetist', 'and', 'pianist', 'rich', 'history', 'of', 'collaboration', 'azmeh', 'ibn', 'arabi', 'postlude', 'and', 'wijeratne', 'clarinet', 'concerto', 'czech', 'composer', 'leoš', 'janácek', 'is', 'also', 'in', 'the', 'spotlight', 'as', 'the', 'concert', 'wraps', 'with', 'his', 'idyll', 'for', 'string', 'orchestra']
     least similar:
     ['founded', 'in', 'australia', 'in', 'powerhouse', 'rock', 'group', 'crowded', 'house', 'catalogue', 'of', 'hits', 'includes', 'don', 'dream', 'it', 'over', 'weather', 'with', 'you', 'better', 'be', 'home', 'soon', 'and', 'fall', 'at', 'your', 'feet', 'vocalist', 'guitarist', 'and', 'songwriter', 'neil', 'finn', 'has', 'led', 'the', 'band', 'through', 'multiple', 'line', 'ups', 'and', 'artistic', 'iterations', 'and', 'has', 'consistently', 'proven', 'his', 'knack', 'for', 'crafting', 'high', 'quality', 'songs', 'that', 'combine', 'irresistible', 'melodies', 'with', 'meticulous', 'lyrical', 'detail', 'allmusic', 'the', 'band', 'appears', 'for', 'the', 'first', 'time', 'ever', 'at', 'ravinia', 'just', 'out', 'of', 'the', 'studio', 'with', 'their', 'new', 'single', 'oh', 'hi']
-    
+
 
 As an unsupervised model, `doc2vec` has no easy way to calculate test accuracy. One proxy is making sure that the genre of a randomly sampled document from test lines up with the genre of the most similar document from train, and that the genre is not close to the least similar document from train.
 
@@ -270,7 +262,7 @@ print(df_train.iloc[sims[len(train) - 1][0]]['genre'])
     classical
     classical
     rock
-    
+
 
 
 ```python
@@ -289,13 +281,13 @@ print(train[sims_stirling[len(train) - 1][0]].words)
 ```
 
     ['lindsey', 'stirling', 'born', 'september', 'is', 'an', 'american', 'violinist', 'songwriter', 'and', 'dancer', 'she', 'presents', 'choreographed', 'violin', 'performances', 'in', 'live', 'and', 'music', 'videos', 'found', 'on', 'her', 'official', 'youtube', 'channel', 'which', 'she', 'created', 'in', 'stirling', 'performs', 'variety', 'of', 'music', 'styles', 'from', 'classical', 'to', 'pop', 'and', 'rock', 'to', 'electronic', 'dance', 'music', 'aside', 'from', 'original', 'work', 'her', 'discography', 'contains', 'covers', 'of', 'songs', 'by', 'other', 'musicians', 'such', 'as', 'johann', 'sebastian', 'bach', 'ludwig', 'van', 'beethoven', 'wolfgang', 'amadeus', 'mozart', 'and', 'antonio', 'vivaldi', 'and', 'various', 'soundtracks']
-    
 
-    most similar: 
+
+    most similar:
     ['faculty', 'members', 'of', 'the', 'ravinia', 'steans', 'music', 'institute', 'piano', 'strings', 'program', 'come', 'together', 'for', 'an', 'afternoon', 'of', 'chamber', 'music', 'with', 'violinist', 'midori', 'taking', 'the', 'stage', 'for', 'her', 'first', 'season', 'as', 'the', 'program', 'artistic', 'director', 'she', 'is', 'joined', 'by', 'violinist', 'mihaela', 'martin', 'violist', 'kim', 'kashkashian', 'cellists', 'frans', 'helmerson', 'and', 'clive', 'greensmith', 'and', 'pianist', 'marc', 'andré', 'hamelin', 'on', 'the', 'program', 'is', 'ludwig', 'van', 'beethoven', 'string', 'trio', 'no', 'timo', 'andres', 'piano', 'trio', 'commissioned', 'by', 'rsmi', 'in', 'carlos', 'simon', 'where', 'two', 'or', 'three', 'are', 'gathered', 'and', 'robert', 'schumann', 'piano', 'quintet', 'in', 'flat', 'major']
     least similar:
     ['appearing', 'in', 'acclaimed', 'broadway', 'productions', 'of', 'the', 'sound', 'of', 'music', 'the', 'book', 'of', 'mormon', 'and', 'parade', 'singer', 'and', 'actor', 'ben', 'platt', 'first', 'rose', 'to', 'prominence', 'in', 'the', 'title', 'role', 'of', 'dear', 'evan', 'hansen', 'that', 'role', 'earned', 'him', 'the', 'tony', 'award', 'for', 'best', 'actor', 'in', 'leading', 'role', 'in', 'musical', 'making', 'him', 'the', 'youngest', 'ever', 'recipient', 'at', 'that', 'time', 'he', 'has', 'recorded', 'two', 'studio', 'albums', 'sing', 'to', 'me', 'instead', 'and', 'reverie', 'and', 'appears', 'this', 'summer', 'following', 'the', 'release', 'of', 'his', 'latest', 'single', 'with', 'sara', 'bareilles', 'grow', 'as', 'we', 'go']
-    
+
 
 
 ```python
@@ -306,19 +298,6 @@ df_ravinia[df_ravinia['descrip'].str.contains('Midori')]
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -388,7 +367,5 @@ fig.savefig(output_dir / 'ravinia_2024_tsne.png')
 ```
 
 
-    
-![png](analyze_files/analyze_27_0.png)
-    
 
+![png](analyze_files/analyze_27_0.png)
