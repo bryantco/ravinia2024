@@ -365,7 +365,3 @@ for label, x, y in zip(wv_labels, xs, ys):
 
 fig.savefig(output_dir / 'ravinia_2024_tsne.png')
 ```
-
-
-
-![png](analyze_files/analyze_27_0.png)
